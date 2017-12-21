@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FireWeapon : MonoBehaviour {
 
@@ -11,6 +12,9 @@ public class FireWeapon : MonoBehaviour {
     public float cooldown;
     public GameObject projectileOne;
     public Transform launchPoint;
+    public GameObject ammoText;
+    public GameObject chargeText;
+    public GameObject cooldownText;
 
 	// Use this for initialization
 	void Start () {
@@ -25,31 +29,36 @@ public class FireWeapon : MonoBehaviour {
         {
             if (currentAmmo < maxAmmo)
             {
-                currentAmmo += 10 * Time.deltaTime;
+                currentAmmo += 15 * Time.deltaTime;
                 if (currentAmmo > maxAmmo)
                 {
                     currentAmmo = maxAmmo;
                 }
             }
+
+            ammoText.GetComponent<Text>().text = "Mana: " + currentAmmo.ToString("F0") + "/100";
         }
 
         //fire weapon
         if (Input.GetButton("Fire1"))
         {
             charging = true;
-            if(currentAmmo > 0)
+            if (currentAmmo > 0)
             {
-                currentAmmo -= 10 * Time.deltaTime;
-                if(currentAmmo < 0)
+                currentAmmo -= 20 * Time.deltaTime;
+                if (currentAmmo < 0)
                 {
                     currentAmmo = 0;
                 }
+
+                if (chargedAmmo < 100)
+                {
+                    chargedAmmo += 20 * Time.deltaTime;
+                }
             }
 
-            if(chargedAmmo < 100)
-            {
-                chargedAmmo += 10 * Time.deltaTime;
-            }
+            ammoText.GetComponent<Text>().text = "Mana: " + currentAmmo.ToString("F0") + "/100";
+            chargeText.GetComponent<Text>().text = "Charge: " + chargedAmmo.ToString("F0") + "/100";
         }
 
         if(Input.GetButtonUp("Fire1"))
@@ -59,10 +68,10 @@ public class FireWeapon : MonoBehaviour {
             {
                 chargedAmmo = 100;
             }
-            print("shoot for " + chargedAmmo.ToString() + " damage");
             FireProjectile((int) chargedAmmo);
             charging = false;
             chargedAmmo = 0;
+            chargeText.GetComponent<Text>().text = "Charge: " + chargedAmmo.ToString("F0") + "/100";
         }
 
         //activated ability
@@ -71,8 +80,8 @@ public class FireWeapon : MonoBehaviour {
             //verschilt per character
             if(cooldown == 0)
             {
-                print("ability");
-                cooldown = 15.0f;
+                currentAmmo = 100.0f;
+                cooldown = 30.0f;
             }
             else
             {
@@ -86,11 +95,14 @@ public class FireWeapon : MonoBehaviour {
         {
             cooldown = 0;
         }
+        cooldownText.GetComponent<Text>().text = "Cooldown: " + cooldown.ToString("F0") + " sec";
     }
 
     void FireProjectile(int dmg)
     {
         GameObject g = Instantiate(projectileOne, launchPoint.position, launchPoint.rotation);
+        dmg *= 12;
         g.GetComponent<Projectile>().damage = dmg;
+        print("shoot for " + dmg.ToString() + " damage");
     }
 }

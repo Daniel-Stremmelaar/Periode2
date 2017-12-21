@@ -10,7 +10,7 @@ public class WeaponSwitch : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        switched = true;
+        switched = false;
 	}
 	
 	// Update is called once per frame

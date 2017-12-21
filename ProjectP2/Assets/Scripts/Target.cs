@@ -8,7 +8,7 @@ public class Target : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        hp = 100;
+        hp = 1000;
 	}
 	
 	// Update is called once per frame
