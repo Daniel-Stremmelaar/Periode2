@@ -7,6 +7,8 @@ public class WeaponSwitch : MonoBehaviour {
     public GameObject staff;
     public GameObject book;
     public bool switched;
+    public GameObject cameraPlayer;
+    public GameObject weaponManager;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +20,8 @@ public class WeaponSwitch : MonoBehaviour {
         if (Input.GetButtonDown("Fire3"))
         {
             switched = !switched;
+            cameraPlayer.GetComponent<FireBook>().enabled = switched;
+            weaponManager.GetComponent<Manager>().WeaponUiSwitch();
             if (switched == true)
             {
                 staff.SetActive(false);

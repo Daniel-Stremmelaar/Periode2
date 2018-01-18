@@ -12,6 +12,12 @@ public class Manager : MonoBehaviour {
     public GameObject pauseMenu;
     public Button resumeButton;
     public Button quitButton;
+    public GameObject StaffAmmoText;
+    public GameObject StaffChargeText;
+    public GameObject StaffCooldownText;
+    public bool switched;
+    public GameObject BookAmmoText;
+    public GameObject BookCooldownText;
 
 	// Use this for initialization
 	void Start () {
@@ -55,4 +61,26 @@ public class Manager : MonoBehaviour {
     {
         Application.Quit();
     }
+
+    public void WeaponUiSwitch()
+    {
+        switched = !switched;
+        if(switched == true)
+        {
+            StaffAmmoText.SetActive(false);
+            StaffChargeText.SetActive(false);
+            StaffCooldownText.SetActive(false);
+            BookAmmoText.SetActive(true);
+            BookCooldownText.SetActive(true);
+        }
+        if(switched == false)
+        {
+            StaffAmmoText.SetActive(true);
+            StaffChargeText.SetActive(true);
+            StaffCooldownText.SetActive(true);
+            BookAmmoText.SetActive(false);
+            BookCooldownText.SetActive(false);
+        }
+    }
+
 }
