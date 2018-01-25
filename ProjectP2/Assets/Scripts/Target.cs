@@ -8,7 +8,11 @@ public class Target : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        hp = 1000;
+        hp = 500;
+        if(gameObject.name == "Portal")
+        {
+            hp = 2000;
+        }
 	}
 	
 	// Update is called once per frame
@@ -22,6 +26,10 @@ public class Target : MonoBehaviour {
         if(hp <= 0)
         {
             Destroy(gameObject, 0.1f);
+            if(gameObject.name == "Portal")
+            {
+                gameObject.GetComponent<Portal>().DisableEmission();
+            }
         }
     }
 }

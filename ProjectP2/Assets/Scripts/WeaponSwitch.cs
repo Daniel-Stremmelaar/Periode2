@@ -17,20 +17,23 @@ public class WeaponSwitch : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("Fire3"))
+        if (Time.timeScale != 0)
         {
-            switched = !switched;
-            cameraPlayer.GetComponent<FireBook>().enabled = switched;
-            weaponManager.GetComponent<Manager>().WeaponUiSwitch();
-            if (switched == true)
+            if (Input.GetButtonDown("Fire3"))
             {
-                staff.SetActive(false);
-                book.SetActive(true);
-            }
-            if(switched == false)
-            {
-                staff.SetActive(true);
-                book.SetActive(false);
+                switched = !switched;
+                cameraPlayer.GetComponent<FireBook>().enabled = switched;
+                weaponManager.GetComponent<Manager>().WeaponUiSwitch();
+                if (switched == true)
+                {
+                    staff.SetActive(false);
+                    book.SetActive(true);
+                }
+                if (switched == false)
+                {
+                    staff.SetActive(true);
+                    book.SetActive(false);
+                }
             }
         }
 	}

@@ -55,8 +55,7 @@ public class FireBook : MonoBehaviour {
                     if (hit.transform.tag == "Enemy")
                     {
                         print("succes");
-                        g = Instantiate(impact, hit.point, Quaternion.identity);
-                        Destroy(g, 0.5f);
+                        Instantiate(impact, hit.point, Quaternion.identity);
                         hit.transform.gameObject.GetComponent<Target>().LoseHP(damage);
                     }
                 }

@@ -9,6 +9,11 @@ public class PlayerHealth : MonoBehaviour {
     public int maxHealth;
     public GameObject loseText;
     public GameObject healthText;
+    public GameObject mainCamera;
+    public GameObject quitButton;
+    public GameObject weapon1;
+    public GameObject crosshair;
+    public GameObject crosshair2;
 
 	// Use this for initialization
 	void Start () {
@@ -23,11 +28,19 @@ public class PlayerHealth : MonoBehaviour {
     public void LoseHealth(int damage)
     {
         health -= damage;
-        if (health < 0)
+        if (health <= 0)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            mainCamera.GetComponent<LookUpDown>().enabled = false;
+            quitButton.SetActive(true);
+            weapon1.GetComponent<FireWeapon>().enabled = false;
             health = 0;
             healthText.GetComponent<Text>().text = "Health: " + health.ToString();
             loseText.SetActive(true);
+            Time.timeScale = 0;
+            crosshair.SetActive(false);
+            crosshair2.SetActive(false);
         }
         else
         {
