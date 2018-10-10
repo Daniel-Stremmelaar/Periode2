@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
     public float speed;
-    private Vector3 v;
-    private Vector3 r;
     public float rotSpeed;
-
     public Rigidbody body;
-    public Vector3 e;
+    public Vector3 velocity;
+
+    [Header("")]
     public bool mayJump;
     public int jumpCurrent;
     public int jumpMax;
+
+    private Vector3 v;
+    private Vector3 r;
 
 	// Use this for initialization
 	void Start () {
@@ -21,15 +23,40 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //rotation look
-        r.y = Input.GetAxis("Mouse X");
-        transform.Rotate(r * rotSpeed * Time.deltaTime);
+        Look();
+        Jump();
+    }
 
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    private void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "Terrain")
+        {
+            jumpCurrent = 0;
+            mayJump = true;
+        }
+    }
+
+    //movement back-front & left-right
+    private void Move()
+    {
+        v.x = Input.GetAxis("Horizontal");
+        v.z = Input.GetAxis("Vertical");
+        transform.Translate(v * speed * Time.deltaTime);
+    }
+
+    //jumping
+    private void Jump()
+    {
         if (Input.GetButtonDown("Jump"))
         {
             if (mayJump == true)
             {
-                body.velocity = e;
+                body.velocity = velocity;
                 jumpCurrent++;
                 if (jumpCurrent >= jumpMax)
                 {
@@ -39,20 +66,10 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    private void FixedUpdate()
+    //look left and right
+    private void Look()
     {
-        //movement back-front & left-right
-        v.x = Input.GetAxis("Horizontal");
-        v.z = Input.GetAxis("Vertical");
-        transform.Translate(v * speed * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter(Collision c)
-    {
-        if (c.gameObject.name == "Terrain")
-        {
-            jumpCurrent = 0;
-            mayJump = true;
-        }
+        r.y = Input.GetAxis("Mouse X");
+        transform.Rotate(r * rotSpeed * Time.deltaTime);
     }
 }
